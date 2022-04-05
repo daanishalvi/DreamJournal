@@ -4,6 +4,7 @@ import tkinter
 from tkinter import *
 from tkinter import ttk
 from turtle import bgcolor, width
+from PIL import ImageGrab
 add_dream_window = Tk()
 add_dream_window.title("Add Dream")
 #add_dream_window.geometry('400x500')
@@ -57,7 +58,7 @@ def changethickness(new):
 
     
 cfrm = ttk.Frame(main, borderwidth=2, relief='ridge')
-cfrm.grid(columnspan=2)
+cfrm.grid(row=7, columnspan=2)
 
 
 red = "#ff0000"
@@ -90,6 +91,17 @@ button_xl.grid(column=4, row=1)
 canvas.grid(column=0, row=2, columnspan=5)
 canvas.bind("<Button-1>", xy)
 canvas.bind("<B1-Motion>", addLine)
+
+def save():
+    x=add_dream_window.winfo_rootx()+canvas.winfo_x()
+    y=add_dream_window.winfo_rooty()+canvas.winfo_y()
+    x1=x+canvas.winfo_width()
+    y1=y+canvas.winfo_height()
+    im = ImageGrab.grab((x, y, x1, y1))
+    im.save("captured.png")
+
+btn_save = ttk.Button(main,text="SAVE",command=save)
+btn_save.grid(row=8, columnspan=2)
 
 add_dream_window.mainloop()
 
