@@ -26,7 +26,6 @@ try:
             f.write(r1.content)    
  
     def storeImages(imagelist, name):
-        mode = 0o666
         dir = "" + str(name)
         while os.path.exists(dir):
             dir = "data:/" + str(name) + str(random.randrange(0,1000))
@@ -54,9 +53,7 @@ try:
         # print(data)
         val = storeImages(data['hits'][0:2],word)
         # print(len(data['hits'])) #gives back 20 pics, trying it to make it give back 1
-  
 
-        showinfo("Success",val + " directory created")
         getwords.delete(0, END)
 
 
@@ -80,15 +77,14 @@ if __name__ == '__main__':
     root = Tk()
     root.title("Scraping images from pixabay")
     root.geometry("500x1000")
-    root.configure(background='#FF9196')
     root.resizable(False, False)
  
  
  
-    dream_description = Label(root, text = "Enter the dream description", font = ('Arial', 18, 'bold'), bg = '#FF9196')
+    dream_description = Label(root, text = "Enter the dream description")
     
-    getwords = Entry(root, width = 35,bd = 5, font = ('Arial', 18, 'bold'))
-    btn = Button(root, text = "Generate Visual Pinboard", font = ('Arial', 18, 'bold'), command = get_description_info)
+    getwords = Entry(root, width = 35)
+    btn = Button(root, text = "Generate Visual Pinboard", command = get_description_info)
  
  
  
