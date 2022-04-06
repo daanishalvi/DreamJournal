@@ -29,6 +29,7 @@ try:
         mode = 0o666
         dir = "" + str(name)
         while os.path.exists(dir):
+#please use your own default directory name like data:/ or e:/
             dir = "data:/" + str(name) + str(random.randrange(0,1000))
         else:
             os.mkdir(dir)
@@ -104,8 +105,3 @@ if __name__ == '__main__':
 
 
 
-
-
-
-
-# dream_description = "I was running away from big black wolves chasing me when I found a red feather on the floor and then I woke up"
