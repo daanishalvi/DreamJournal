@@ -15,6 +15,7 @@ from PIL import Image, ImageTk
 from urllib.request import urlopen, Request
  
  
+ 
 try:
     socket.create_connection(("www.google.com",80))
     #showinfo("Connected","u r connected")
