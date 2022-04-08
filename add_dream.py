@@ -1,22 +1,26 @@
 #add dream
 from string import whitespace
-import tkinter
+import tkinter as tk
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 from turtle import bgcolor, width
-from PIL import ImageGrab
+from PIL import ImageGrab, ImageDraw
+import PIL
+import io
+from csv import *
 add_dream_window = Tk()
 add_dream_window.title("Add Dream")
 #add_dream_window.geometry('400x500')
-
 
 main = ttk.Frame(add_dream_window)
 main.grid()
 
 title = ttk.Label(main, text = "Dream Title")
-title_entry = ttk.Entry(main)
-colour_code = ttk.Label(main,text = "Colour Code")
-colour_code_entry = ttk.Entry(main)
+title_entry = ttk.Entry(main, textvariable=tk.StringVar())
+
+colour_code = ttk.Label(main, text = "Colour Code")
+colour_code_entry = ttk.Entry(main, textvariable=tk.StringVar())
 title.grid(row=0, columnspan=2, padx=200)
 title_entry.grid(row=1, columnspan=2)
 colour_code.grid(row=2, columnspan=2)
@@ -29,6 +33,22 @@ description.grid(row=4, columnspan=2)
 activate.grid(row=5, columnspan=2)
 description_textbox.grid(row=6, columnspan=2)
 
+csv_out_lst = []
+
+def save_text():
+        lst = [title_entry.get(), colour_code_entry.get(), description_textbox.get(1.0, "end-1c")]
+        
+        csv_out_lst.append(lst)
+        
+        with open("dream_data.csv", "w") as file:
+                w=writer(file)
+                w.writerow(["Title", "Colour Code", "Description"])
+                w.writerows(csv_out_lst)        
+        messagebox.showinfo("Information", "Successfully saved your dream!")
+
+
+save_button = ttk.Button(main, text="Save Dream", command = save_text)
+save_button.grid(row=7, columnspan=2)
 
 lastx, lasty = 0, 0
 
@@ -58,7 +78,7 @@ def changethickness(new):
 
     
 cfrm = ttk.Frame(main, borderwidth=2, relief='ridge')
-cfrm.grid(row=7, columnspan=2)
+cfrm.grid(row=8, columnspan=2)
 
 
 red = "#ff0000"
@@ -77,7 +97,7 @@ button_s = ttk.Button(cfrm, text="SMALL", command=lambda: changethickness(small)
 button_m = ttk.Button(cfrm, text="MEDIUM", command=lambda: changethickness(medium))
 button_l = ttk.Button(cfrm, text="LARGE", command=lambda: changethickness(large))
 button_xl = ttk.Button(cfrm, text="XLARGE", command=lambda: changethickness(xlarge))
-canvas = tkinter.Canvas(cfrm, bg=white)
+canvas = tk.Canvas(cfrm, bg=white)
 button_r.grid(column=0, row=0)
 button_g.grid(column=1, row=0)
 button_b.grid(column=2, row=0)
@@ -92,16 +112,51 @@ canvas.grid(column=0, row=2, columnspan=5)
 canvas.bind("<Button-1>", xy)
 canvas.bind("<B1-Motion>", addLine)
 
+image = PIL.Image.new("RGB", (100,100), white)
+draw = ImageDraw.Draw(image)
+
 def save():
-    x=add_dream_window.winfo_rootx()+canvas.winfo_x()
-    y=add_dream_window.winfo_rooty()+canvas.winfo_y()
+    x=main.winfo_rootx()+cfrm.winfo_x()
+    y=main.winfo_rooty()+cfrm.winfo_y()
+    print('canvas.x:', canvas.winfo_x())
+    print('canvas.y:', canvas.winfo_y())
+    print('canvas.rootx:', canvas.winfo_rootx())
+    print('canvas.rooty:', canvas.winfo_rooty())
+    print('main.rootx:', main.winfo_rootx())
+    print('main.rooty:', main.winfo_rooty())
     x1=x+canvas.winfo_width()
     y1=y+canvas.winfo_height()
     im = ImageGrab.grab((x, y, x1, y1))
     im.save("captured.png")
+##def save():
+##    main.update()
+##    canvas.update()
+##    x=canvas.canvasx()
+##    y=canvas.canvasy()
+##    x1=x+canvas.winfo_width()
+##    y1=y+canvas.winfo_height()
+##    im = ImageGrab.grab((x, y, x1, y1))
+##    im.save("captured.png")
+
+    #image.save("captured.png")
+##    cnv = getscreen().getcanvas() 
+##    global hen
+##    ps = cnv.postscript(colormode = 'color')
+##    hen = filedialog.asksaveasfilename(defaultextension = '.jpg')
+##    im = Image.open(io.BytesIO(ps.encode('utf-8')))
+##    im.save(hen + '.jpg')
+def callback():
+    print('  root.geometry:', main.winfo_geometry())
+    print('canvas.geometry:', canvas.winfo_geometry())
+    print('canvas.width :', canvas.winfo_width())
+    print('canvas.height:', canvas.winfo_height())
+    print('canvas.x:', canvas.winfo_x())
+    print('canvas.y:', canvas.winfo_y())
+    print('canvas.rootx:', canvas.winfo_rootx())
+    print('canvas.rooty:', canvas.winfo_rooty())
 
 btn_save = ttk.Button(main,text="SAVE",command=save)
-btn_save.grid(row=8, columnspan=2)
+btn_save.grid(row=9, columnspan=2)
 
 add_dream_window.mainloop()
 
