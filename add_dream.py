@@ -5,7 +5,9 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from turtle import bgcolor, width
-#from PIL import ImageGrab
+from PIL import ImageGrab, ImageDraw
+import PIL
+import io
 from csv import *
 add_dream_window = Tk()
 add_dream_window.title("Add Dream")
@@ -110,13 +112,48 @@ canvas.grid(column=0, row=2, columnspan=5)
 canvas.bind("<Button-1>", xy)
 canvas.bind("<B1-Motion>", addLine)
 
+image = PIL.Image.new("RGB", (100,100), white)
+draw = ImageDraw.Draw(image)
+
 def save():
-    x=add_dream_window.winfo_rootx()+canvas.winfo_x()
-    y=add_dream_window.winfo_rooty()+canvas.winfo_y()
+    x=main.winfo_rootx()+cfrm.winfo_x()
+    y=main.winfo_rooty()+cfrm.winfo_y()
+    print('canvas.x:', canvas.winfo_x())
+    print('canvas.y:', canvas.winfo_y())
+    print('canvas.rootx:', canvas.winfo_rootx())
+    print('canvas.rooty:', canvas.winfo_rooty())
+    print('main.rootx:', main.winfo_rootx())
+    print('main.rooty:', main.winfo_rooty())
     x1=x+canvas.winfo_width()
     y1=y+canvas.winfo_height()
     im = ImageGrab.grab((x, y, x1, y1))
     im.save("captured.png")
+##def save():
+##    main.update()
+##    canvas.update()
+##    x=canvas.canvasx()
+##    y=canvas.canvasy()
+##    x1=x+canvas.winfo_width()
+##    y1=y+canvas.winfo_height()
+##    im = ImageGrab.grab((x, y, x1, y1))
+##    im.save("captured.png")
+
+    #image.save("captured.png")
+##    cnv = getscreen().getcanvas() 
+##    global hen
+##    ps = cnv.postscript(colormode = 'color')
+##    hen = filedialog.asksaveasfilename(defaultextension = '.jpg')
+##    im = Image.open(io.BytesIO(ps.encode('utf-8')))
+##    im.save(hen + '.jpg')
+def callback():
+    print('  root.geometry:', main.winfo_geometry())
+    print('canvas.geometry:', canvas.winfo_geometry())
+    print('canvas.width :', canvas.winfo_width())
+    print('canvas.height:', canvas.winfo_height())
+    print('canvas.x:', canvas.winfo_x())
+    print('canvas.y:', canvas.winfo_y())
+    print('canvas.rootx:', canvas.winfo_rootx())
+    print('canvas.rooty:', canvas.winfo_rooty())
 
 btn_save = ttk.Button(main,text="SAVE",command=save)
 btn_save.grid(row=9, columnspan=2)
