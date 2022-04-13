@@ -16,27 +16,35 @@ class Dream():
         
         dream_breakdown_window = Tk()
         dream_breakdown_window.title("Dream Breakdown")
-  
+        
+        #tried to use ttk.Style to change the background of the window, but was not successful 
+        
+        """s = ttk.Style()
+        s.configure('f1', background = 'white')
+        main = ttk.Frame(dream_breakdown_window, style = 'f1')"""
+        
+        
+        
         main = ttk.Frame(dream_breakdown_window)
         main.grid()
 
 
-        dream_title_label = ttk.Label(main, text = "Dream Title").grid(row=0,column=1,  columnspan=2, padx=200)
-        dream_title = ttk.Label(main, text = self.title).grid(row=0, column=10, columnspan=2, padx=200)
+        dream_title_label = ttk.Label(main, text = "Dream Title").grid(row=1,column=1,  columnspan=2, padx=200, pady=6)
+        dream_title = ttk.Label(main, text = self.title).grid(row=1, column=10, columnspan=2, padx=200, pady=6)
 
         #forgot to add the date
-        dream_date_label = ttk.Label(main, text = "Date").grid(row=2,column=1,  columnspan=2, padx=200)
-        dream_date = ttk.Label(main, text = self.date).grid(row=2, column=10, columnspan=2, padx=200)
+        dream_date_label = ttk.Label(main, text = "Date").grid(row=2,column=1,  columnspan=2, padx=200, pady=6)
+        dream_date = ttk.Label(main, text = self.date).grid(row=2, column=10, columnspan=2, padx=200, pady=6)
 
-        color_code_label = ttk.Label(main,text = "Color Code").grid(row=3, column=1, columnspan=2)
-        color_code = ttk.Label(main,text = self.color_code).grid(row=3, column=10, columnspan=2)
+        color_code_label = ttk.Label(main,text = "Color Code").grid(row=3, column=1, columnspan=2, pady=6)
+        color_code = ttk.Label(main,text = self.color_code).grid(row=3, column=10, columnspan=2, pady=6)
 
-        dream_description_label = ttk.Label(main, text = "Description").grid(row=4, column=1, columnspan=2)
-        dream_description = ttk.Label(main, text = self.description).grid(row=4, column=10, columnspan=2)
+        dream_description_label = ttk.Label(main, text = "Description",).grid(row=4, column=1, columnspan=2, pady=6)
+        dream_description = ttk.Label(main, text = self.description).grid(row=4, column=10, columnspan=2, pady=6)
 
 
         #creating visual pinboard
-        visual_pinboard_label = ttk.Label(main, text = "Visual Pinboard").grid(row=5, column=1, columnspan=2)
+        visual_pinboard_label = ttk.Label(main, text = "Visual Pinboard").grid(row=5, column=10, pady=6)
 
 
         

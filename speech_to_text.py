@@ -1,28 +1,23 @@
 import speech_recognition as sr
-import tkinter as tk
+import sys
 
-obj = tk.Tk()
-obj.title("SpeechToText")
-obj.geometry('400x200')
-obj.resizable(0,0)
+#read duration from the arguments
+duration = 7
 
-def rec():
-    r = sr.Recognizer()
-    #msg.configure(text="Say something")
-    while True:
-        with sr.Microphone() as source: 
-            r.adjust_for_ambient_noise(source)
-            audio = r.listen(source)
-        try:
-            txt = r.recognize_google(audio)
-            msg.configure(text=txt)
-            print(txt)
-        except Exception as e:
-            print(e)
-            break
+# initialize the recognizer
+r = sr.Recognizer()
+print("Please talk")
+with sr.Microphone() as source:
 
-msg = tk.Label()
-msg.grid(row=0,column=0)
-btn = tk.Button(text="Start",command=rec)
-btn.grid(row=2,column=0)
-obj.mainloop()
+    
+
+    try:
+    # read the audio data from the default microphone
+        audio_data = r.record(source, duration=duration)
+        print("Recognizing...")
+        text = r.recognize_google(audio_data)
+        print(text)
+
+
+    except sr.UnknownValueError:
+        print("Could not understand")
