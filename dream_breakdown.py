@@ -42,21 +42,18 @@ class Dream():
         
         #corner case statements need to be created for cases of having no nouns in description or just one.
 
-        img1 = Image.open('logo.png')
+        img1 = Image.open('folder1/image1.jpg')
         img1_photo = ImageTk.PhotoImage(img1)
         img1_display = Label(main, image = img1_photo, width = 100, height=120).grid(row=8, column=1, columnspan=2)
 
-        img2 = Image.open('logo.png')
+        img2 = Image.open('folder2/image1.jpg')
         img2_photo = ImageTk.PhotoImage(img2)
         img2_display = Label(main, image = img2_photo, width = 100, height=120).grid(row=8, column=2, columnspan=2)
 
-        img3 = Image.open('logo.png')
+        img3 = Image.open('folder3/image1.jpg')
         img3_photo = ImageTk.PhotoImage(img3)
         img3_display = Label(main, image = img3_photo, width = 100, height=120).grid(row=8, column=3, columnspan=2)
 
-        img4 = Image.open('logo.png')
-        img4_photo = ImageTk.PhotoImage(img4)
-        img4_display = Label(main, image = img4_photo, width = 100, height=120).grid(row=8, column=4, columnspan=2)
 
     
         #creating drawing

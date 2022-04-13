@@ -22,16 +22,22 @@ try:
  
  
     def saveImage(image,dir):
-        with open(dir+ '/' + str(image['id'])+".jpg", "wb") as f:
+        with open(dir+ '/' + "image1"+".jpg", "wb") as f:
             r1 = requests.get(image["largeImageURL"])
             f.write(r1.content)    
  
     def storeImages(imagelist, name):
-        dir = "" + str(name)
+        folder_num = 1
+        dir = "folder{}".format(folder_num)
+        
+
         while os.path.exists(dir):
-            dir = "data:/" + str(name) + str(random.randrange(0,1000))
+            folder_num +=1
+            dir = "folder{}".format(folder_num)
         else:
+            folder_num +=1
             os.mkdir(dir)
+
         #print(imagelist)
         for i in imagelist:
             val = i['largeImageURL'].rfind('.')
@@ -52,7 +58,7 @@ try:
         #print(res)
         data = res.json()
         # print(data)
-        val = storeImages(data['hits'][0:2],word)
+        val = storeImages(data['hits'][0:1],word)
         # print(len(data['hits'])) #gives back 20 pics, trying it to make it give back 1
 
         getwords.delete(0, END)
@@ -103,6 +109,7 @@ if __name__ == '__main__':
 
 
 
+#the folders need to be deleted after being uploaded to dream breakdown page 
 
 
 # dream_description = "I was running away from big black wolves chasing me when I found a red feather on the floor and then I woke up"
