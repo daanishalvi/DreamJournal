@@ -1,15 +1,16 @@
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
+from visual_pinboard import VisualPinboard, get_description_info
 
 
 class Dream():
-    def __init__(self, title, date, color_code, description, drawing_path):
+    def __init__(self, title, color_code, description):
         self.title = title
-        self.date = date
+        # self.date = date
         self.color_code = color_code
         self.description = description
-        self.drawing_path = drawing_path
+
     
     def create_dream_entry(self):
         ''' Creates a dream entry with the data entered by the user'''
@@ -32,9 +33,9 @@ class Dream():
         dream_title_label = ttk.Label(main, text = "Dream Title").grid(row=1,column=1,  columnspan=2, padx=200, pady=6)
         dream_title = ttk.Label(main, text = self.title).grid(row=1, column=10, columnspan=2, padx=200, pady=6)
 
-        #forgot to add the date
-        dream_date_label = ttk.Label(main, text = "Date").grid(row=2,column=1,  columnspan=2, padx=200, pady=6)
-        dream_date = ttk.Label(main, text = self.date).grid(row=2, column=10, columnspan=2, padx=200, pady=6)
+        # # #forgot to add the date
+        # dream_date_label = ttk.Label(main, text = "Date").grid(row=2,column=1,  columnspan=2, padx=200, pady=6)
+        # dream_date = ttk.Label(main, text = self.date).grid(row=2, column=10, columnspan=2, padx=200, pady=6)
 
         color_code_label = ttk.Label(main,text = "Color Code").grid(row=3, column=1, columnspan=2, pady=6)
         color_code = ttk.Label(main,text = self.color_code).grid(row=3, column=10, columnspan=2, pady=6)
@@ -44,7 +45,10 @@ class Dream():
 
 
         #creating visual pinboard
-        visual_pinboard_label = ttk.Label(main, text = "Visual Pinboard").grid(row=5, column=10, pady=6)
+        visual_pinboard_label = ttk.Label(main, text = "Visual Pinboard").grid(row=6, column=1, pady=6)
+        vb = VisualPinboard("{}".format(self.description))
+        get_description_info(vb)
+        
 
 
         
@@ -52,30 +56,30 @@ class Dream():
 
         img1 = Image.open('folder1/image1.jpg')
         img1_photo = ImageTk.PhotoImage(img1)
-        img1_display = Label(main, image = img1_photo, width = 100, height=120).grid(row=8, column=1, columnspan=2)
+        img1_display = Label(main, image = img1_photo, width = 400, height=420).grid(row=8, column=1, columnspan=2)
 
         img2 = Image.open('folder2/image1.jpg')
         img2_photo = ImageTk.PhotoImage(img2)
-        img2_display = Label(main, image = img2_photo, width = 100, height=120).grid(row=8, column=2, columnspan=2)
+        img2_display = Label(main, image = img2_photo, width = 400, height=420).grid(row=8, column=10, columnspan=2)
 
         img3 = Image.open('folder3/image1.jpg')
         img3_photo = ImageTk.PhotoImage(img3)
-        img3_display = Label(main, image = img3_photo, width = 100, height=120).grid(row=8, column=3, columnspan=2)
+        img3_display = Label(main, image = img3_photo, width = 400, height=420).grid(row=8, column=17, columnspan=2)
 
 
     
         #creating drawing
         #loading the drawing 
-        # drawing = Image.open('logo.png')
-        # drawing_photo = ImageTk.PhotoImage(drawing)
-        # dream_drawing_label = ttk.Label(main, text = "Dream Drawing").grid(row=6, column=1, columnspan=2)
-        # dream_drawing = Label(main, image = drawing_photo, width = 40, height=50).grid(row=10, column=1, columnspan=2)
+        drawing = Image.open('image0.png')
+        drawing_photo = ImageTk.PhotoImage(drawing)
+        dream_drawing_label = ttk.Label(main, text = "Dream Drawing").grid(row=30, column=1, columnspan=20)
+        dream_drawing = Label(main, image = drawing_photo, width = 40, height=50).grid(row=10, column=1, columnspan=2)
 
 
         dream_breakdown_window.mainloop()
 
 
 #the dream object fields need to be filled by info from csv's or user inputted data in the add dream page. The one I filled is a template for testing
-dream = Dream("Nightmare where I was chased by wolves", "10/02/2022", "black", "I was running away from big black wolves chasing me when I found a red feather on the floor and then I woke up", "logo.png")
-dream.create_dream_entry()
+# dream = Dream("Nightmare where I was chased by wolves", "10/02/2022", "black", "I was running away from big black wolves chasing me when I found a red feather on the floor and then I woke up")
+# dream.create_dream_entry()
         

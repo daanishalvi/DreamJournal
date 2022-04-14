@@ -15,6 +15,9 @@ from PIL import ImageGrab, ImageDraw, Image, ImageTk
 import PIL
 import io
 from csv import *
+from dream_breakdown import Dream
+import csv
+
 
 
 class SampleApp(tk.Tk):
@@ -33,7 +36,7 @@ class SampleApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (StartPage, dream_breakdown, PageTwo, add_dream):
+        for F in (StartPage, my_journal, PageTwo, add_dream):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -68,7 +71,7 @@ class StartPage(tk.Frame):
 
 
         # These are linked properly 
-        btn_journal = Button(main, text="My Journal", command=lambda: controller.show_frame("dream_breakdown"))
+        btn_journal = Button(main, text="My Journal", command=lambda: controller.show_frame("my_journal"))
         btn_add = Button(main, text="Add Dream", command=lambda: controller.show_frame("add_dream"))
 
         btn_journal.grid(row=1, column=0)
@@ -78,16 +81,39 @@ class StartPage(tk.Frame):
         btn_journal.config(height=4, width=32)
 
 
-class dream_breakdown(tk.Frame):
+class my_journal(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+                
+        # opening csv file with dream data to read
+        file = open('dream_data.csv')
+        csvreader = csv.reader(file)
+
+        rows = []
+        for row in csvreader:
+                rows.append(row)
+
+        print(rows)
+
+
+
         self.controller = controller
-        label = tk.Label(self, text="This is the dream_breakdown", font=controller.title_font)
+        label = tk.Label(self, text="My Journal", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
         button = tk.Button(self, text="Go to the start page",
                            command=lambda: controller.show_frame("StartPage"))
+
+        #reading csv file and creating dream entry buttons
+        for row in rows[1:]:
+            dream = Dream(row[0],row[1],row[2])
+
+
+            dream_entry = tk.Button(self, text="{}".format(row[0]), command=dream.create_dream_entry)
+            dream_entry.pack()
         button.pack()
+        
+
 
 
 class PageTwo(tk.Frame):
@@ -99,7 +125,11 @@ class PageTwo(tk.Frame):
         label.pack(side="top", fill="x", pady=10)
         button = tk.Button(self, text="Go to the start page",
                            command=lambda: controller.show_frame("StartPage"))
+
+        
         button.pack()
+ 
+
 
 class add_dream(tk.Frame):
     def __init__(self, parent, controller):
