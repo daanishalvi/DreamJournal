@@ -107,10 +107,10 @@ class my_journal(tk.Frame):
 
         #reading csv file and creating dream entry buttons
         for row in rows[1:]:
-            dream = Dream(row[0],row[1],row[2],row[3])
+            dream = Dream(row[0],row[1],row[2],row[3], row[4])
 
 
-            dream_entry = tk.Button(self, text="{} Date Recorded: {}".format(row[0],row[3]), command=dream.create_dream_entry)
+            dream_entry = tk.Button(self, text="{} Date Recorded: {}".format(row[0],row[4]), command=dream.create_dream_entry)
             dream_entry.pack()
         button.pack()
         
@@ -221,12 +221,13 @@ class add_dream(tk.Frame):
                 messagebox.showerror("error", "Please fill the fields provided!")
                 
         else:
-                lst = [self.title_entry.get(), self.colour_code_entry.get(), self.description_textbox.get(1.0, "end-1c"), "image" + str(self.image) + ".png"]
+                dream_date = datetime.datetime.now()
+                lst = [self.title_entry.get(), self.colour_code_entry.get(), self.description_textbox.get(1.0, "end-1c"), "image" + str(self.image) + ".png", dream_date.strftime("%x")]
                 self.csv_out_lst = [lst]
                 
                 with open("dream_data.csv", "a", encoding='UTF8', newline='') as f:
                         writing = writer(f)
-                        writing.writerow([" ", " ", " "])
+                        writing.writerow([" ", " ", " ", " "])
                         writing.writerows(self.csv_out_lst)
 
                 self.title_entry.delete(0, 'end')
