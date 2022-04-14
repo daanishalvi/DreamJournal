@@ -8,6 +8,7 @@ from turtle import bgcolor, width
 from PIL import ImageGrab, ImageDraw
 import PIL
 import io
+import datetime
 from csv import *
 add_dream_window = Tk()
 add_dream_window.title("Add Dream")
@@ -40,7 +41,9 @@ def save_text():
                 messagebox.showerror("error", "Please fill the fields provided!")
                 
         else:
-                lst = [title_entry.get(), colour_code_entry.get(), description_textbox.get(1.0, "end-1c")]
+                dream_date = datetime.datetime.now()
+           
+                lst = [title_entry.get(), colour_code_entry.get(), description_textbox.get(1.0, "end-1c"), dream_date.strftime("%x")]
                 csv_out_lst.append(lst)
                 
                 with open("dream_data.csv", "a", encoding='UTF8', newline='') as f:
