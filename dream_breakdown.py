@@ -5,10 +5,11 @@ from visual_pinboard import VisualPinboard, get_description_info
 
 
 class Dream():
-    def __init__(self, title, color_code, description,date):
+    def __init__(self, title, color_code, description, path, date):
         self.title = title
         self.color_code = color_code
         self.description = description
+        self.path = path
         self.date = date
 
     
