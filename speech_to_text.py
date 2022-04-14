@@ -1,5 +1,5 @@
 import speech_recognition as sr
-import sys
+
 
 #read duration from the arguments
 duration = 7
