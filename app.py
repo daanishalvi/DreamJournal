@@ -171,7 +171,12 @@ class add_dream(tk.Frame):
         btn_save = ttk.Button(self.main,text="SAVE DREAM",command=self.save)
         btn_save.grid(row=8, columnspan=2)
 
+
+        
         self.image = 0
+        for row in open("dream_data.csv"):
+            self.image += 1
+        self.image = int(self.image / 2)
         
 
     def save(self):
@@ -180,7 +185,7 @@ class add_dream(tk.Frame):
                 messagebox.showerror("error", "Please fill the fields provided!")
                 
         else:
-                lst = [self.title_entry.get(), self.colour_code_entry.get(), self.description_textbox.get(1.0, "end-1c")]
+                lst = [self.title_entry.get(), self.colour_code_entry.get(), self.description_textbox.get(1.0, "end-1c"), "image" + str(self.image) + ".png"]
                 self.csv_out_lst = [lst]
                 
                 with open("dream_data.csv", "a", encoding='UTF8', newline='') as f:
@@ -206,6 +211,7 @@ class add_dream(tk.Frame):
                 # sys.stdout.flush()
                 im = ImageGrab.grab(bbox)
                 im.save("image" + str(self.image) + ".png")
+                self.image += 1
 
                 self.canvas.delete('all')
                 
