@@ -201,36 +201,52 @@ class add_dream(tk.Frame):
         btn_save = ttk.Button(self.main,text="SAVE DREAM",command=self.save)
         btn_save.grid(row=8, columnspan=2)
 
+
+        
         self.image = 0
+        for row in open("dream_data.csv"):
+            self.image += 1
+        self.image = int(self.image / 2)
         
 
     def save(self):
-        lst = [self.title_entry.get(), self.colour_code_entry.get(), self.description_textbox.get(1.0, "end-1c")]
-        
-        self.csv_out_lst.append(lst)
-        
-        with open("dream_data.csv", "w") as file:
-            w=writer(file)
-            w.writerow(["Title", "Colour Code", "Description"])
-            w.writerows(self.csv_out_lst)
 
-        # just grab the position of the canvas widget relative to the screen origin
-        x = self.canvas.winfo_rootx()
-        y = self.canvas.winfo_rooty()
+        if self.title_entry.get() == '' or self.colour_code_entry.get() == '' or self.description_textbox.get(1.0, "end-1c") == '':
+                messagebox.showerror("error", "Please fill the fields provided!")
+                
+        else:
+                lst = [self.title_entry.get(), self.colour_code_entry.get(), self.description_textbox.get(1.0, "end-1c"), "image" + str(self.image) + ".png"]
+                self.csv_out_lst = [lst]
+                
+                with open("dream_data.csv", "a", encoding='UTF8', newline='') as f:
+                        writing = writer(f)
+                        writing.writerow([" ", " ", " "])
+                        writing.writerows(self.csv_out_lst)
 
-        x1 = x + self.canvas.winfo_width()
-        y1 = y + self.canvas.winfo_height()
-        bbox = (x * 2, y * 2, x1 * 2, y1 * 2)
-        # wuh?? internal pixel coordinate system is different than screen coordinates
-        # https://github.com/python-pillow/Pillow/issues/3293
-        # last comment
-        # print(bbox)
-        # sys.stdout.flush()
-        im = ImageGrab.grab(bbox)
-        im.save("image" + str(self.image) + ".png")
-        
-        messagebox.showinfo("Information", "Successfully saved your dream!")
-        self.controller.show_frame("StartPage")
+                self.title_entry.delete(0, 'end')
+                self.colour_code_entry.delete(0, 'end')
+                self.description_textbox.delete('1.0', 'end')
+
+                # just grab the position of the canvas widget relative to the screen origin
+                x = self.canvas.winfo_rootx()
+                y = self.canvas.winfo_rooty()
+
+                x1 = x + self.canvas.winfo_width()
+                y1 = y + self.canvas.winfo_height()
+                bbox = (x * 2, y * 2, x1 * 2, y1 * 2)
+                # wuh?? internal pixel coordinate system is different than screen coordinates
+                # https://github.com/python-pillow/Pillow/issues/3293
+                # last comment
+                # print(bbox)
+                # sys.stdout.flush()
+                im = ImageGrab.grab(bbox)
+                im.save("image" + str(self.image) + ".png")
+                self.image += 1
+
+                self.canvas.delete('all')
+                
+                messagebox.showinfo("Information", "Successfully saved your dream!")
+                self.controller.show_frame("StartPage")
         
 
     def xy(self, event):

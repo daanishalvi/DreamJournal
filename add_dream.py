@@ -36,15 +36,18 @@ description_textbox.grid(row=6, columnspan=2)
 csv_out_lst = []
 
 def save_text():
-        lst = [title_entry.get(), colour_code_entry.get(), description_textbox.get(1.0, "end-1c")]
-        
-        csv_out_lst.append(lst)
-        
-        with open("dream_data.csv", "w") as file:
-                w=writer(file)
-                w.writerow(["Title", "Colour Code", "Description"])
-                w.writerows(csv_out_lst)        
-        messagebox.showinfo("Information", "Successfully saved your dream!")
+        if title_entry.get() == '' or colour_code_entry.get() == '' or description_textbox.get(1.0, "end-1c") == '':
+                messagebox.showerror("error", "Please fill the fields provided!")
+                
+        else:
+                lst = [title_entry.get(), colour_code_entry.get(), description_textbox.get(1.0, "end-1c")]
+                csv_out_lst.append(lst)
+                
+                with open("dream_data.csv", "a", encoding='UTF8', newline='') as f:
+                        writing = writer(f)
+                        writing.writerow([" ", " ", " "])
+                        writing.writerows(csv_out_lst)
+                messagebox.showinfo("Information", "Successfully saved your dream!")
 
 
 save_button = ttk.Button(main, text="Save Dream", command = save_text)
