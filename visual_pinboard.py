@@ -15,101 +15,94 @@ from PIL import Image, ImageTk
 from urllib.request import urlopen, Request
  
  
- 
-try:
-    socket.create_connection(("www.google.com",80))
-    #showinfo("Connected","u r connected")
- 
- 
-    def saveImage(image,dir):
-        with open(dir+ '/' + "image1"+".jpg", "wb") as f:
-            r1 = requests.get(image["largeImageURL"])
-            f.write(r1.content)    
- 
-    def storeImages(imagelist, name):
-        folder_num = 1
+class VisualPinboard():
+    def __init__(self,description):
+        self.description = description
+
+def get_description_info(self):
+    text = self.description
+    nouns = [word for word, pos in pos_tag(word_tokenize(text)) if pos.startswith('NN')]
+    # print(nouns)
+
+    for noun in nouns:
+        # print(noun)
+        getImages(self,noun)
+
+def getImages(self,word):
+    a1 = "https://pixabay.com/api/?key=16344627-110e29474f27c28a4a9923a6a&q="
+    words = word #the nouns entered in the dream description
+    a2 = '+'.join(words.split(' '))
+    #print(a2)
+    a3 = "&safesearch=true&order=popular"
+    res = requests.get(a1+a2+a3)
+    #print(res)
+    data = res.json()
+    # print(data)
+    val = storeImages(data['hits'][0:1],word)
+    # print(len(data['hits'])) #gives back 20 pics, trying it to make it give back 1
+
+    # self.description.delete(0, END)
+
+def saveImage(image,dir):
+    with open(dir+ '/' + "image1"+".jpg", "wb") as f:
+        r1 = requests.get(image["largeImageURL"])
+        f.write(r1.content)    
+
+def storeImages(imagelist, name):
+    folder_num = 1
+    dir = "folder{}".format(folder_num)
+    
+
+    while os.path.exists(dir):
+        folder_num +=1
         dir = "folder{}".format(folder_num)
+    else:
+        folder_num +=1
+        os.mkdir(dir)
+
+    #print(imagelist)
+    for i in imagelist:
+        val = i['largeImageURL'].rfind('.')
+        extension = i['largeImageURL'][val+1:]
+        if extension.lower() == 'jpg' or extension.lower() == 'png':
+            saveImage(i,dir)
+        else:
+            pass
+    return dir
         
 
-        while os.path.exists(dir):
-            folder_num +=1
-            dir = "folder{}".format(folder_num)
-        else:
-            folder_num +=1
-            os.mkdir(dir)
-
-        #print(imagelist)
-        for i in imagelist:
-            val = i['largeImageURL'].rfind('.')
-            extension = i['largeImageURL'][val+1:]
-            if extension.lower() == 'jpg' or extension.lower() == 'png':
-                saveImage(i,dir)
-            else:
-                pass
-        return dir
-            
-    def getImages(word):
-        a1 = "https://pixabay.com/api/?key=16344627-110e29474f27c28a4a9923a6a&q="
-        words = word #the nouns entered in the dream description
-        a2 = '+'.join(words.split(' '))
-        #print(a2)
-        a3 = "&safesearch=true&order=popular"
-        res = requests.get(a1+a2+a3)
-        #print(res)
-        data = res.json()
-        # print(data)
-        val = storeImages(data['hits'][0:1],word)
-        # print(len(data['hits'])) #gives back 20 pics, trying it to make it give back 1
-
-        getwords.delete(0, END)
+# vb = VisualPinboard("I was running away from wolves chasing me when I found a red feather on the floor and then I woke up")
+# get_description_info(vb)
 
 
-    def get_description_info():
-        text = getwords.get()
-        nouns = [word for word, pos in pos_tag(word_tokenize(text)) if pos.startswith('NN')]
-        # print(nouns)
-
-        for noun in nouns:
-            # print(noun)
-            getImages(noun)
-
-   
-     
-   
-except Exception as e:
-    showerror("issue", e)
  
-if __name__ == '__main__':
+# if __name__ == '__main__':
  
-    root = Tk()
-    root.title("Scraping images from pixabay")
-    root.geometry("500x1000")
-    root.resizable(False, False)
+#     root = Tk()
+#     root.title("Scraping images from pixabay")
+#     root.geometry("500x1000")
+#     root.resizable(False, False)
  
  
  
-    dream_description = Label(root, text = "Enter the dream description")
+    # dream_description = Label(root, text = "Enter the dream description")
     
-    getwords = Entry(root, width = 35)
-    btn = Button(root, text = "Generate Visual Pinboard", command = get_description_info)
+    # getwords = Entry(root, width = 35)
+    # btn = Button(root, text = "Generate Visual Pinboard", command = get_description_info)
  
  
  
-    dream_description.pack(pady = 20)
-    getwords.pack(pady = 20)
-    btn.pack(pady = 20)
-    getwords.focus()
+    # dream_description.pack(pady = 20)
+    # getwords.pack(pady = 20)
+    # btn.pack(pady = 20)
+    # getwords.focus()
  
  
  
-    root.mainloop()
-
-
-
-
+    # root.mainloop()
 
 
 #the folders need to be deleted after being uploaded to dream breakdown page 
 
 
-# dream_description = "I was running away from big black wolves chasing me when I found a red feather on the floor and then I woke up"
+# dream_description = "I was running away from wolves chasing me when I found a red feather on the floor and then I woke up"
