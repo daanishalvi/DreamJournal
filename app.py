@@ -86,6 +86,15 @@ class my_journal(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
                 
+
+
+        self.controller = controller
+        label = tk.Label(self, text="My Journal", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        button = tk.Button(self, text="Go to the start page",
+                           command=lambda: controller.show_frame("StartPage"))
+
+
         # opening csv file with dream data to read
         file = open('dream_data.csv')
         csvreader = csv.reader(file)
@@ -96,20 +105,12 @@ class my_journal(tk.Frame):
 
         print(rows)
 
-
-
-        self.controller = controller
-        label = tk.Label(self, text="My Journal", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-        button = tk.Button(self, text="Go to the start page",
-                           command=lambda: controller.show_frame("StartPage"))
-
         #reading csv file and creating dream entry buttons
         for row in rows[1:]:
-            dream = Dream(row[0],row[1],row[2])
+            dream = Dream(row[0],row[1],row[2],row[3])
 
 
-            dream_entry = tk.Button(self, text="{}".format(row[0]), command=dream.create_dream_entry)
+            dream_entry = tk.Button(self, text="{} Date Recorded: {}".format(row[0],row[3]), command=dream.create_dream_entry)
             dream_entry.pack()
         button.pack()
         
@@ -135,6 +136,7 @@ class add_dream(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+
         #self.title("Add Dream")
         self.main = ttk.Frame(self)
         self.main.grid()
@@ -207,6 +209,10 @@ class add_dream(tk.Frame):
         for row in open("dream_data.csv"):
             self.image += 1
         self.image = int(self.image / 2)
+
+        button = tk.Button(self, text="Go to the start page",
+                    command=lambda: controller.show_frame("StartPage")).grid(column=0, row=3, columnspan=5)
+
         
 
     def save(self):
