@@ -6,6 +6,7 @@ except ImportError:
     import tkFont as tkfont  # python 2
 
 from string import whitespace
+import datetime
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
@@ -94,7 +95,7 @@ class my_journal(tk.Frame):
         button = tk.Button(self, text="Go to the start page",
                            command=lambda: controller.show_frame("StartPage"))
 
-
+        
         # opening csv file with dream data to read
         file = open('dream_data.csv')
         csvreader = csv.reader(file)
@@ -251,6 +252,8 @@ class add_dream(tk.Frame):
                 self.image += 1
 
                 self.canvas.delete('all')
+
+                
                 
                 messagebox.showinfo("Information", "Successfully saved your dream!")
                 self.controller.show_frame("StartPage")

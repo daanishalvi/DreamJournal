@@ -70,17 +70,17 @@ class Dream():
 
     
         #creating drawing
-        #loading the drawing 
-        # drawing = Image.open('image0.png')
-        # drawing_photo = ImageTk.PhotoImage(drawing)
-        # dream_drawing_label = ttk.Label(main, text = "Dream Drawing").grid(row=30, column=1, columnspan=20)
-        # dream_drawing = Label(main, image = drawing_photo, width = 40, height=50).grid(row=10, column=1, columnspan=2)
+        # loading the drawing 
+        drawing = Image.open("{}".format(self.path))
+        drawing_photo = ImageTk.PhotoImage(drawing)
+        dream_drawing_label = ttk.Label(main, text = "Dream Drawing").grid(row=30, column=1, columnspan=2)
+        dream_drawing = Label(main, image = drawing_photo, width = 40, height=50).grid(row=10, column=1, columnspan=2)
 
 
         dream_breakdown_window.mainloop()
 
 
 #the dream object fields need to be filled by info from csv's or user inputted data in the add dream page. The one I filled is a template for testing
-# dream = Dream("Nightmare where I was chased by wolves", "black", "I was running away from big black wolves chasing me when I found a red feather on the floor and then I woke up", "10/02/2022")
+# dream = Dream("Nightmare where I was chased by wolves", "black", "I was running away from big black wolves chasing me when I found a red feather on the floor and then I woke up", "logo.png", "10/02/2022")
 # dream.create_dream_entry()
         
